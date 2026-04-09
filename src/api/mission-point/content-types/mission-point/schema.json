@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mission_points",
+  "info": {
+    "singularName": "mission-point",
+    "pluralName": "mission-points",
+    "displayName": "Mission Point",
+    "description": "Individual mission points shown in the Our Mission section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "icon": { "type": "string" },
+    "icon_url": { "type": "string" },
+    "icon_image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "order": { "type": "integer", "default": 0 },
+    "active": { "type": "boolean", "default": true }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "properties",
+  "info": {
+    "singularName": "property",
+    "pluralName": "properties",
+    "displayName": "Property",
+    "description": "Real estate properties for sale or rent in Qatar"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "location": {
+      "type": "string",
+      "placeholder": "e.g. The Pearl-Qatar, West Bay, Lusail"
+    },
+    "bedrooms": {
+      "type": "integer"
+    },
+    "bathrooms": {
+      "type": "integer"
+    },
+    "area_sqft": {
+      "type": "decimal"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["sale", "rent"],
+      "required": true
+    },
+    "availability": {
+      "type": "enumeration",
+      "enum": ["available", "sold", "rented"],
+      "default": "available"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "images": {
+      "allowedTypes": ["images"],
+      "type": "media",
+      "multiple": true
+    },
+    "amenities": {
+      "type": "json"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    }
+  }
+}

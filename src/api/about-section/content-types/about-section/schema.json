@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "about_sections",
+  "info": {
+    "singularName": "about-section",
+    "pluralName": "about-sections",
+    "displayName": "About Section",
+    "description": "Info boxes shown in the About Us page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "icon": { "type": "string" },
+    "icon_url": { "type": "string" },
+    "icon_image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "order": { "type": "integer", "default": 0 },
+    "active": { "type": "boolean", "default": true }
+  }
+}

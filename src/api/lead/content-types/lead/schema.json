@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "leads",
+  "info": {
+    "singularName": "lead",
+    "pluralName": "leads",
+    "displayName": "Lead",
+    "description": "Leads captured from landing pages"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    },
+    "source_page": {
+      "type": "string"
+    },
+    "property_interest": {
+      "type": "string"
+    },
+    "lead_type": {
+      "type": "enumeration",
+      "enum": ["buyer", "renter", "investor", "general"],
+      "default": "general"
+    },
+    "lead_status": {
+      "type": "enumeration",
+      "enum": ["new", "contacted", "qualified", "closed", "lost"],
+      "default": "new"
+    },
+    "form_data": {
+      "type": "json"
+    }
+  }
+}

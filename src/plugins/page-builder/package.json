@@ -1,0 +1,24 @@
+{
+  "name": "page-builder",
+  "version": "1.0.0",
+  "description": "Drag & drop landing page builder for Strapi admin",
+  "strapi": {
+    "kind": "plugin",
+    "name": "page-builder",
+    "displayName": "Page Builder"
+  },
+  "exports": {
+    "./strapi-admin": {
+      "source": "./strapi-admin.ts",
+      "import": "./strapi-admin.ts",
+      "require": "./strapi-admin.ts",
+      "default": "./strapi-admin.ts"
+    },
+    "./strapi-server": {
+      "source": "./strapi-server.ts",
+      "import": "./strapi-server.ts",
+      "require": "./strapi-server.ts",
+      "default": "./strapi-server.ts"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Setting",
+    "description": "Global site configuration for The Pearl Gates"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero_title": { "type": "string" },
+    "hero_subtitle": { "type": "string" },
+    "hero_image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "hero_slides": { "type": "json" },
+    "hero_button_text": { "type": "string" },
+    "hero_button_link": { "type": "string" },
+    "logo": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "site_name": { "type": "string" },
+    "tagline": { "type": "string" },
+    "top_bar_address": { "type": "string" },
+    "top_bar_email": { "type": "email" },
+    "top_bar_phone": { "type": "string" },
+    "nav_links": {
+      "type": "json",
+      "default": [
+        {"label": "HOME", "url": "/", "order": 1},
+        {"label": "SALES", "url": "/sales", "order": 2},
+        {"label": "RENTALS", "url": "/rentals", "order": 3},
+        {"label": "CONTACT", "url": "/contact", "order": 4},
+        {"label": "ABOUT US", "url": "/about", "order": 5}
+      ]
+    },
+    "header_style": {
+      "type": "enumeration",
+      "enum": ["dark", "light", "transparent"],
+      "default": "dark"
+    },
+    "about_title": { "type": "string" },
+    "about_text": { "type": "richtext" },
+    "about_image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "about_description": { "type": "richtext" },
+    "mission_title": { "type": "string", "default": "OUR MISSION" },
+    "mission_description": { "type": "richtext" },
+    "mission_image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "mission_points": { "type": "json" },
+    "vision_title": { "type": "string" },
+    "vision_description": { "type": "richtext" },
+    "stats": { "type": "json" },
+    "contact_title": { "type": "string" },
+    "contact_description": { "type": "string" },
+    "contact_email": { "type": "email" },
+    "contact_phone": { "type": "string" },
+    "contact_address": { "type": "string" },
+    "contact_whatsapp": { "type": "string" },
+    "contact_map_lat": { "type": "decimal" },
+    "contact_map_lng": { "type": "decimal" },
+    "office_hours": { "type": "string" },
+    "footer_description": { "type": "string" },
+    "footer_about_text": { "type": "text" },
+    "footer_logo": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "social_facebook": { "type": "string" },
+    "social_instagram": { "type": "string" },
+    "social_twitter": { "type": "string" },
+    "social_linkedin": { "type": "string" },
+    "social_youtube": { "type": "string" },
+    "footer_copyright": { "type": "string" },
+    "footer_links": { "type": "json" },
+    "footer_quick_links": { "type": "json" },
+    "footer_contact_email": { "type": "email" },
+    "footer_contact_phone": { "type": "string" },
+    "footer_contact_address": { "type": "text" }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "hot_offer",
+  "info": {
+    "singularName": "hot-offer",
+    "pluralName": "hot-offers",
+    "displayName": "Hot Offer",
+    "description": "The featured hot offer of the day shown on the homepage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "offer_label": { "type": "string", "default": "Hot Offer Today" },
+    "discount_text": { "type": "string" },
+    "valid_until": { "type": "date" },
+    "active": { "type": "boolean", "default": true },
+    "property": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::property.property"
+    }
+  }
+}

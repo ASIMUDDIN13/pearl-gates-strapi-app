@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "services",
+  "info": {
+    "singularName": "service",
+    "pluralName": "services",
+    "displayName": "Service",
+    "description": "Services offered by The Pearl Gates"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "icon": { "type": "string" },
+    "icon_url": { "type": "string" },
+    "icon_image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "image": { "allowedTypes": ["images"], "type": "media", "multiple": false },
+    "order": { "type": "integer", "default": 0 },
+    "active": { "type": "boolean", "default": true }
+  }
+}
