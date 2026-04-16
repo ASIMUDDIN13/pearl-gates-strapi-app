@@ -5,7 +5,7 @@
     "singularName": "lead",
     "pluralName": "leads",
     "displayName": "Lead",
-    "description": "Leads captured from landing pages"
+    "description": "Leads captured from landing pages and contact forms"
   },
   "options": {
     "draftAndPublish": false
@@ -27,8 +27,22 @@
     "source_page": {
       "type": "string"
     },
-    "property_interest": {
+    "listing_location": {
       "type": "string"
+    },
+    "preferred_date": {
+      "type": "date"
+    },
+    "preferred_time": {
+      "type": "string"
+    },
+    "budget_qar": {
+      "type": "integer"
+    },
+    "lead_tier": {
+      "type": "enumeration",
+      "enum": ["tier1", "tier2", "tier3"],
+      "default": "tier1"
     },
     "lead_type": {
       "type": "enumeration",
@@ -39,6 +53,28 @@
       "type": "enumeration",
       "enum": ["new", "contacted", "qualified", "closed", "lost"],
       "default": "new"
+    },
+    "consent_accepted": {
+      "type": "boolean",
+      "default": false
+    },
+    "utm_source": {
+      "type": "string"
+    },
+    "utm_medium": {
+      "type": "string"
+    },
+    "utm_campaign": {
+      "type": "string"
+    },
+    "gclid": {
+      "type": "string"
+    },
+    "landing_page_url": {
+      "type": "string"
+    },
+    "property_interest": {
+      "type": "string"
     },
     "form_data": {
       "type": "json"

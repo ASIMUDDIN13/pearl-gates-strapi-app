@@ -466,38 +466,6 @@ export interface ApiAboutSectionAboutSection
   };
 }
 
-export interface ApiAgentAgent extends Struct.CollectionTypeSchema {
-  collectionName: 'agents';
-  info: {
-    description: 'Real estate agents at The Pearl Gates';
-    displayName: 'Agent';
-    pluralName: 'agents';
-    singularName: 'agent';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    bio: Schema.Attribute.RichText;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    email: Schema.Attribute.Email;
-    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::agent.agent'> &
-      Schema.Attribute.Private;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    phone: Schema.Attribute.String;
-    photo: Schema.Attribute.Media<'images'>;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    whatsapp: Schema.Attribute.String;
-  };
-}
-
 export interface ApiClientClient extends Struct.CollectionTypeSchema {
   collectionName: 'clients';
   info: {
@@ -583,7 +551,6 @@ export interface ApiHotOfferHotOffer extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     offer_label: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Hot Offer Today'>;
-    property: Schema.Attribute.Relation<'oneToOne', 'api::property.property'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -595,7 +562,7 @@ export interface ApiHotOfferHotOffer extends Struct.SingleTypeSchema {
 export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
   collectionName: 'landing_pages';
   info: {
-    description: 'Drag & drop landing pages for lead capture';
+    description: 'Landing pages built with the page builder';
     displayName: 'Landing Page';
     pluralName: 'landing-pages';
     singularName: 'landing-page';
@@ -608,6 +575,7 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    crmSlug: Schema.Attribute.String;
     is_published: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -629,7 +597,7 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
 export interface ApiLeadLead extends Struct.CollectionTypeSchema {
   collectionName: 'leads';
   info: {
-    description: 'Leads captured from landing pages';
+    description: 'Leads captured from landing pages and contact forms';
     displayName: 'Lead';
     pluralName: 'leads';
     singularName: 'lead';
@@ -638,31 +606,44 @@ export interface ApiLeadLead extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    budget_qar: Schema.Attribute.Integer;
+    consent_accepted: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
     form_data: Schema.Attribute.JSON;
+    gclid: Schema.Attribute.String;
+    landing_page_url: Schema.Attribute.String;
     lead_status: Schema.Attribute.Enumeration<
       ['new', 'contacted', 'qualified', 'closed', 'lost']
     > &
       Schema.Attribute.DefaultTo<'new'>;
+    lead_tier: Schema.Attribute.Enumeration<['tier1', 'tier2', 'tier3']> &
+      Schema.Attribute.DefaultTo<'tier1'>;
     lead_type: Schema.Attribute.Enumeration<
       ['buyer', 'renter', 'investor', 'general']
     > &
       Schema.Attribute.DefaultTo<'general'>;
+    listing_location: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
       Schema.Attribute.Private;
     message: Schema.Attribute.Text;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     phone: Schema.Attribute.String;
+    preferred_date: Schema.Attribute.Date;
+    preferred_time: Schema.Attribute.String;
     property_interest: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     source_page: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    utm_campaign: Schema.Attribute.String;
+    utm_medium: Schema.Attribute.String;
+    utm_source: Schema.Attribute.String;
   };
 }
 
@@ -696,53 +677,6 @@ export interface ApiMissionPointMissionPoint
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiPropertyProperty extends Struct.CollectionTypeSchema {
-  collectionName: 'properties';
-  info: {
-    description: 'Real estate properties for sale or rent in Qatar';
-    displayName: 'Property';
-    pluralName: 'properties';
-    singularName: 'property';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    amenities: Schema.Attribute.JSON;
-    area_sqft: Schema.Attribute.Decimal;
-    availability: Schema.Attribute.Enumeration<
-      ['available', 'sold', 'rented']
-    > &
-      Schema.Attribute.DefaultTo<'available'>;
-    bathrooms: Schema.Attribute.Integer;
-    bedrooms: Schema.Attribute.Integer;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.RichText;
-    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    images: Schema.Attribute.Media<'images', true>;
-    latitude: Schema.Attribute.Decimal;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::property.property'
-    > &
-      Schema.Attribute.Private;
-    location: Schema.Attribute.String;
-    longitude: Schema.Attribute.Decimal;
-    price: Schema.Attribute.Decimal;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    type: Schema.Attribute.Enumeration<['sale', 'rent']> &
-      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1446,14 +1380,12 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::about-section.about-section': ApiAboutSectionAboutSection;
-      'api::agent.agent': ApiAgentAgent;
       'api::client.client': ApiClientClient;
       'api::faq.faq': ApiFaqFaq;
       'api::hot-offer.hot-offer': ApiHotOfferHotOffer;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;
       'api::lead.lead': ApiLeadLead;
       'api::mission-point.mission-point': ApiMissionPointMissionPoint;
-      'api::property.property': ApiPropertyProperty;
       'api::service.service': ApiServiceService;
       'api::site-setting.site-setting': ApiSiteSettingSiteSetting;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;

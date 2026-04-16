@@ -15,11 +15,6 @@
     "offer_label": { "type": "string", "default": "Hot Offer Today" },
     "discount_text": { "type": "string" },
     "valid_until": { "type": "date" },
-    "active": { "type": "boolean", "default": true },
-    "property": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::property.property"
-    }
+    "active": { "type": "boolean", "default": true }
   }
 }
