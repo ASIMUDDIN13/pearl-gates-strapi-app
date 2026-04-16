@@ -1,9 +1,10 @@
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm install"]
 cacheDirectories = ["/root/.npm"]
 
 [phases.build]
 cmds = ["npm run build"]
+cacheDirectories = []
 
 [start]
 cmd = "npm run start"
