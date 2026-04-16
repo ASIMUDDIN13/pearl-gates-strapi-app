@@ -73,13 +73,12 @@ export function LandingList() {
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const CM = 'content-manager/collection-types/api::landing-page.landing-page';
+  const PB = 'page-builder/pages';
 
   const loadPages = useCallback(async () => {
     setLoading(true);
     try {
-      const res: any = await get(`/${CM}?sort=createdAt:desc&pageSize=100`);
-      // CM API returns { results: [...], pagination: {...} }
+      const res: any = await get(`/${PB}`);
       setPages(res?.data?.results || res?.results || res?.data?.data || res?.data || []);
     } catch (e) {
       console.error(e);
@@ -94,7 +93,7 @@ export function LandingList() {
     if (!window.confirm(`Delete "${page.title}"? This cannot be undone.`)) return;
     setDeletingId(page.documentId);
     try {
-      await del(`/${CM}/${page.documentId}`);
+      await del(`/${PB}/${page.documentId}`);
       setPages(prev => prev.filter(p => p.documentId !== page.documentId));
     } catch (e) {
       alert('Failed to delete page.');
@@ -105,7 +104,7 @@ export function LandingList() {
 
   const duplicatePage = async (page: LandingPage) => {
     try {
-      await post(`/${CM}`, {
+      await post(`/${PB}`, {
         title: `${page.title} (Copy)`, blocks: page.blocks, is_published: false
       });
       loadPages();

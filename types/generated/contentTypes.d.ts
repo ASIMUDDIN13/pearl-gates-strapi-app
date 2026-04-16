@@ -570,6 +570,14 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: false;
   };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
   attributes: {
     blocks: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;

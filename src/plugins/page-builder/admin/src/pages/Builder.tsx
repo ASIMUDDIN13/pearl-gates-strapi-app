@@ -629,7 +629,7 @@ function Toast({ msg, type }: { msg:string; type:'ok'|'err' }) {
 
 // ─── Main Builder ─────────────────────────────────────────────────────────────
 
-const CM = 'content-manager/collection-types/api::landing-page.landing-page';
+const PB = 'page-builder/pages';
 
 export function Builder() {
   const navigate = useNavigate();
@@ -664,7 +664,7 @@ export function Builder() {
   useEffect(() => {
     if (!documentId) return;
     setLoading(true);
-    get(`/${CM}/${documentId}`)
+    get(`/${PB}/${documentId}`)
       .then((res:any) => {
         // Try all possible nesting levels
         const d = res?.data?.data ?? res?.data ?? res;
@@ -784,12 +784,12 @@ export function Builder() {
     if (pageSlug) payload.slug = pageSlug;
     try {
       if (savedDocId) {
-        const res:any = await put(`/${CM}/${savedDocId}`, payload);
+        const res:any = await put(`/${PB}/${savedDocId}`, payload);
         const d = res?.data?.data ?? res?.data ?? res;
         if (d?.slug) setPageSlug(d.slug);
         showToast('✓ Page saved successfully');
       } else {
-        const res:any = await post(`/${CM}`, payload);
+        const res:any = await post(`/${PB}`, payload);
         const d = res?.data?.data ?? res?.data ?? res;
         if (d?.documentId) setSavedDocId(d.documentId);
         if (d?.slug)       setPageSlug(d.slug);
