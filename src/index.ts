@@ -2,6 +2,9 @@ import type { Core } from '@strapi/strapi';
 
 const LANDING_PAGE_UID = 'api::landing-page.landing-page' as const;
 
+const CRM_ACCESS_TOKEN = process.env.CRM_ACCESS_TOKEN || '4JjXxl2RFf6t08NnbHVDcrKYy';
+const CRM_CLIENT_NO    = process.env.CRM_CLIENT_NO    || 'TTPG25111';
+
 function slugify(text: string): string {
   return String(text || '')
     .toLowerCase()
@@ -12,19 +15,61 @@ function slugify(text: string): string {
     || `page-${Date.now()}`;
 }
 
+async function crmPost(endpoint: string, body: unknown): Promise<{ status: number; data: unknown }> {
+  const url = new URL(`https://api.osyro.com${endpoint}`);
+  url.searchParams.set('AccessToken', CRM_ACCESS_TOKEN);
+  url.searchParams.set('ClientNo', CRM_CLIENT_NO);
+
+  const res = await fetch(url.toString(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  let data: unknown;
+  try { data = await res.json(); } catch { data = {}; }
+  return { status: res.status, data };
+}
+
 export default {
   register(/* { strapi }: { strapi: Core.Strapi } */) {},
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     const s = strapi as any;
 
-    // ── Register /page-builder/pages routes via Koa middleware ─────────────
+    // ── Register /page-builder/* routes via Koa middleware ──────────────────
     // Plugin route handlers don't resolve cross-plugin in Strapi v5, so we
     // mount these directly on the Koa app before any 404 handler fires.
     const app = s.server.app;
 
     app.use(async (ctx: any, next: () => Promise<void>) => {
       const { method, path } = ctx;
+
+      // POST /page-builder/crm/pages — proxy to CRM pages/save (avoids browser CORS)
+      if (method === 'POST' && path === '/page-builder/crm/pages') {
+        try {
+          const { status, data } = await crmPost('/api/pages/save', ctx.request.body ?? {});
+          ctx.status = status;
+          ctx.body = data;
+        } catch (e: any) {
+          ctx.status = 502;
+          ctx.body = { error: 'CRM proxy error', message: e.message };
+        }
+        return;
+      }
+
+      // POST /page-builder/crm/leads — proxy to CRM pagesleads (avoids browser CORS)
+      if (method === 'POST' && path === '/page-builder/crm/leads') {
+        try {
+          const { status, data } = await crmPost('/api/pagesleads', ctx.request.body ?? {});
+          ctx.status = status;
+          ctx.body = data;
+        } catch (e: any) {
+          ctx.status = 502;
+          ctx.body = { error: 'CRM proxy error', message: e.message };
+        }
+        return;
+      }
 
       // GET /landing/:slug — redirect to the frontend so shared/preview URLs work
       const landingMatch = path.match(/^\/landing\/([^/]+)$/);
