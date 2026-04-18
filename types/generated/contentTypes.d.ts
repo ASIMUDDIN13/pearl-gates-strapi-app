@@ -580,10 +580,12 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
   };
   attributes: {
     blocks: Schema.Attribute.JSON;
+    content_json: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     crmSlug: Schema.Attribute.String;
+    gtm_container_id: Schema.Attribute.String;
     is_published: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -592,9 +594,12 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     meta_description: Schema.Attribute.Text;
+    meta_pixel_id: Schema.Attribute.String;
     meta_title: Schema.Attribute.String;
+    project_location: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    template_id: Schema.Attribute.Integer;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

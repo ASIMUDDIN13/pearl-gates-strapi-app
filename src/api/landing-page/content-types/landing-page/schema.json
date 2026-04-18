@@ -44,6 +44,21 @@
     },
     "crmSlug": {
       "type": "string"
+    },
+    "template_id": {
+      "type": "integer"
+    },
+    "content_json": {
+      "type": "text"
+    },
+    "project_location": {
+      "type": "string"
+    },
+    "gtm_container_id": {
+      "type": "string"
+    },
+    "meta_pixel_id": {
+      "type": "string"
     }
   }
 }

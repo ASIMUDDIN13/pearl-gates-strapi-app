@@ -1254,9 +1254,8 @@ export default function PageBuilderApp() {
   const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
   const dragItem = useRef<number | null>(null);
 
-  // ── API — uses Content Manager endpoints so admin JWT is accepted ─────────
-  // Public /api/ routes reject admin JWT; /content-manager/ routes accept it.
-  const CM = '/content-manager/collection-types/api::landing-page.landing-page';
+  // ── API — uses dedicated plugin routes that verify admin JWT directly ──────
+  const CM = '/page-builder/pages';
 
   const loadPages = useCallback(async () => {
     setListLoading(true);
