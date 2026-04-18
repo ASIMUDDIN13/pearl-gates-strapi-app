@@ -26,6 +26,15 @@ export default {
     app.use(async (ctx: any, next: () => Promise<void>) => {
       const { method, path } = ctx;
 
+      // GET /landing/:slug — redirect to the frontend so shared/preview URLs work
+      const landingMatch = path.match(/^\/landing\/([^/]+)$/);
+      if (method === 'GET' && landingMatch) {
+        const slug = landingMatch[1];
+        const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:4200').replace(/\/$/, '');
+        ctx.redirect(`${frontendUrl}/landing/${slug}`);
+        return;
+      }
+
       // GET /page-builder/pages
       if (method === 'GET' && path === '/page-builder/pages') {
         try {
