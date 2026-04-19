@@ -75,7 +75,7 @@ export default {
       const landingMatch = path.match(/^\/landing\/([^/]+)$/);
       if (method === 'GET' && landingMatch) {
         const slug = landingMatch[1];
-        const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:4200').replace(/\/$/, '');
+        const frontendUrl = (process.env.FRONTEND_URL || 'https://thepearlgates-website.up.railway.app').replace(/\/$/, '');
         ctx.redirect(`${frontendUrl}/landing/${slug}`);
         return;
       }

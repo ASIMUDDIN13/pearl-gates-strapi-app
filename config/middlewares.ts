@@ -8,7 +8,7 @@ const config: Core.Config.Middlewares = [
     name: 'strapi::cors',
     config: {
       origin: [
-        'http://localhost:4200',
+        process.env.FRONTEND_URL || 'https://thepearlgates-website.up.railway.app',
         'https://*.railway.app',
         'https://*.up.railway.app',
         'https://beta.thepearlgates.com',
