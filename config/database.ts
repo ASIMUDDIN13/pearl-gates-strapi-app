@@ -1,5 +1,5 @@
 export default ({ env }) => {
-  if (env('NODE_ENV') === 'production' && env('DATABASE_URL')) {
+  if (env('DATABASE_URL')) {
     return {
       connection: {
         client: 'postgres',
@@ -11,12 +11,14 @@ export default ({ env }) => {
       },
     };
   }
-
   return {
     connection: {
       client: 'sqlite',
       connection: {
-        filename: env('DATABASE_FILENAME', '.tmp/data.db'),
+        filename: env(
+          'DATABASE_FILENAME',
+          '.tmp/data.db'
+        ),
       },
       useNullAsDefault: true,
       debug: false,
