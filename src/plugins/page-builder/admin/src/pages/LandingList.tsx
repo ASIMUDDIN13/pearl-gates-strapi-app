@@ -246,7 +246,7 @@ export function LandingList() {
                     <div style={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                       <IconBtn icon={Icons.edit}  title="Edit page"    onClick={() => navigate(page.documentId)} />
                       {page.slug && (
-                        <IconBtn icon={Icons.eye} title="Preview page"  onClick={() => { const base = (process.env.STRAPI_ADMIN_FRONTEND_URL || (window.location.hostname === 'localhost' ? 'http://localhost:4200' : 'https://thepearlgates-website.up.railway.app')).replace(/\/$/, ''); window.open(`${base}/landing/${page.slug}`, '_blank'); }} />
+                        <IconBtn icon={Icons.eye} title="Preview page"  onClick={() => { const base = (process.env.STRAPI_ADMIN_FRONTEND_URL || 'https://thepearlgates-website.up.railway.app').replace(/\/$/, ''); window.open(`${base}/landing/${page.slug}`, '_blank'); }} />
                       )}
                       <IconBtn icon={Icons.copy}  title="Duplicate"    onClick={() => duplicatePage(page)} />
                       <IconBtn icon={Icons.trash} title="Delete page"  onClick={() => deletePage(page)} danger />

@@ -858,7 +858,7 @@ export function Builder() {
             {Icons.wand} Template
           </button>
           {savedDocId && pageSlug && (
-            <button onClick={() => { const base = (process.env.STRAPI_ADMIN_FRONTEND_URL || (window.location.hostname === 'localhost' ? 'http://localhost:4200' : 'https://thepearlgates-website.up.railway.app')).replace(/\/$/, ''); window.open(`${base}/landing/${pageSlug}`, '_blank'); }} style={{ border:`1px solid rgba(255,255,255,.18)`, background:'rgba(255,255,255,.06)', color:'#d1d5db', cursor:'pointer', borderRadius:6, padding:'6px 13px', fontSize:12, display:'flex', alignItems:'center', gap:5, fontFamily:'inherit' }}>
+            <button onClick={() => { const base = (process.env.STRAPI_ADMIN_FRONTEND_URL || 'https://thepearlgates-website.up.railway.app').replace(/\/$/, ''); window.open(`${base}/landing/${pageSlug}`, '_blank'); }} style={{ border:`1px solid rgba(255,255,255,.18)`, background:'rgba(255,255,255,.06)', color:'#d1d5db', cursor:'pointer', borderRadius:6, padding:'6px 13px', fontSize:12, display:'flex', alignItems:'center', gap:5, fontFamily:'inherit' }}>
               {Icons.eye} Preview
             </button>
           )}
