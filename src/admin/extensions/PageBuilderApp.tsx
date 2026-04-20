@@ -60,8 +60,7 @@ const DEFAULTS: Record<BlockType, Record<string, any>> = {
   },
   form: {
     heading: 'Book a Viewing',
-    subtext: 'Fill in your details & we\'ll confirm within 24 hrs',
-    submitLabel: 'Confirm Booking',
+    subheading: 'Fill in your details & we\'ll confirm within 24 hrs',
   },
   text: {
     heading: 'About This Property',
@@ -353,7 +352,7 @@ function FormPreview({ p }: { p: any }) {
     <div style={{ background: C.goldDark }}>
       <div style={{ background: C.gold, padding: '12px 16px' }}>
         <strong style={{ color: C.goldDark, fontSize: 14 }}>{p.heading || 'Book a Viewing'}</strong>
-        <p style={{ margin: '2px 0 0', color: C.goldDark, fontSize: 11, opacity: 0.75 }}>{p.subtext || 'Fill in your details & we\'ll confirm within 24 hrs'}</p>
+        <p style={{ margin: '2px 0 0', color: C.goldDark, fontSize: 11, opacity: 0.75 }}>{p.subheading || 'Fill in your details & we\'ll confirm within 24 hrs'}</p>
       </div>
       <div style={{ padding: '12px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
         {['First Name', 'Last Name'].map(f => (
@@ -939,8 +938,7 @@ function FormFixedEditor({ p, set }: { p: any; set: (k: string, v: any) => void 
   return <>
     <p style={sectionTitle}>Form Header</p>
     <FInput label="Heading" value={p.heading} onChange={v => set('heading', v)} placeholder="Book a Viewing" />
-    <FInput label="Subtext" value={p.subtext} onChange={v => set('subtext', v)} placeholder="Fill in your details..." />
-    <FInput label="Submit Button Text" value={p.submitLabel} onChange={v => set('submitLabel', v)} placeholder="Confirm Booking" />
+    <FInput label="Subheading" value={p.subheading} onChange={v => set('subheading', v)} placeholder="Fill in your details..." />
     <div style={{ marginTop: 16, background: C.bg, borderRadius: 8, padding: 12, border: `1px solid ${C.border}` }}>
       <p style={{ ...sectionTitle, margin: '0 0 8px' }}>Fixed fields (always included)</p>
       {['First Name', 'Last Name', 'Email', 'Phone', 'Preferred Date', 'Preferred Time', 'Budget (QAR)', 'Message'].map(f => (
@@ -1512,11 +1510,13 @@ export default function PageBuilderApp() {
           ☰ Template
         </button>
 
-        {/* Preview */}
-        <a href={previewUrl(currentPage?.slug ?? '')} target="_blank" rel="noopener noreferrer"
-          style={{ padding: '7px 14px', border: `1px solid ${C.border}`, borderRadius: 6, color: C.textMuted, fontSize: 12, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5, whiteSpace: 'nowrap' }}>
+        {/* Preview — saves first so the live page always reflects current canvas state */}
+        <button
+          onClick={async () => { await savePage(); window.open(previewUrl(currentPage?.slug ?? ''), '_blank'); }}
+          disabled={saving}
+          style={{ padding: '7px 14px', border: `1px solid ${C.border}`, borderRadius: 6, background: 'none', color: C.textMuted, fontSize: 12, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5, whiteSpace: 'nowrap', cursor: saving ? 'wait' : 'pointer' }}>
           👁 Preview
-        </a>
+        </button>
 
         {/* Save */}
         {saveMsg && <span style={{ fontSize: 12, color: saveMsg.startsWith('Error') ? C.danger : C.success, whiteSpace: 'nowrap' }}>{saveMsg}</span>}
