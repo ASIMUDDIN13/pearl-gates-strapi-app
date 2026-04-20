@@ -1266,7 +1266,7 @@ export default function PageBuilderApp() {
         // documentId is the Strapi v5 stable identifier used for PUT/DELETE
         documentId: item.documentId ?? undefined,
         title: item.title ?? '',
-        slug: 'the-pearl-gates-project',
+        slug: item.slug ?? '',
         blocks: Array.isArray(item.blocks) ? item.blocks : [],
         is_published: item.is_published ?? false,
       })));
