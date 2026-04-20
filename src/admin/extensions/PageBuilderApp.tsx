@@ -58,7 +58,11 @@ const DEFAULTS: Record<BlockType, Record<string, any>> = {
     ctaText: 'Book a Viewing',
     ctaScrollTo: 'form',
   },
-  form: {},
+  form: {
+    heading: 'Book a Viewing',
+    subtext: 'Fill in your details & we\'ll confirm within 24 hrs',
+    submitLabel: 'Confirm Booking',
+  },
   text: {
     heading: 'About This Property',
     body: 'Describe your property here. Add key features, location highlights, and unique selling points.',
@@ -344,12 +348,12 @@ function HeroPreview({ p }: { p: any }) {
     </div>
   );
 }
-function FormPreview() {
+function FormPreview({ p }: { p: any }) {
   return (
     <div style={{ background: C.goldDark }}>
       <div style={{ background: C.gold, padding: '12px 16px' }}>
-        <strong style={{ color: C.goldDark, fontSize: 14 }}>Book a Viewing</strong>
-        <p style={{ margin: '2px 0 0', color: C.goldDark, fontSize: 11, opacity: 0.75 }}>Fixed 8-field enquiry form</p>
+        <strong style={{ color: C.goldDark, fontSize: 14 }}>{p.heading || 'Book a Viewing'}</strong>
+        <p style={{ margin: '2px 0 0', color: C.goldDark, fontSize: 11, opacity: 0.75 }}>{p.subtext || 'Fill in your details & we\'ll confirm within 24 hrs'}</p>
       </div>
       <div style={{ padding: '12px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
         {['First Name', 'Last Name'].map(f => (
@@ -358,10 +362,7 @@ function FormPreview() {
         {['Email', 'Phone', 'Preferred Date / Time', 'Budget'].map(f => (
           <div key={f} style={{ background: '#0f172a', border: '1px solid #2a2a4a', borderRadius: 4, padding: '5px 8px', color: '#555', fontSize: 11, gridColumn: '1/-1' }}>{f}</div>
         ))}
-        <div style={{ gridColumn: '1/-1', background: C.gold, borderRadius: 4, padding: '7px', textAlign: 'center', color: C.goldDark, fontWeight: 700, fontSize: 11, marginTop: 4 }}>CONFIRM BOOKING</div>
-      </div>
-      <div style={{ padding: '6px 16px 10px', textAlign: 'center' }}>
-        <span style={{ fontSize: 10, color: '#666', background: '#0d1117', border: `1px solid ${C.gold}44`, borderRadius: 3, padding: '2px 8px' }}>🔒 Fixed — not editable from canvas</span>
+        <div style={{ gridColumn: '1/-1', background: C.gold, borderRadius: 4, padding: '7px', textAlign: 'center', color: C.goldDark, fontWeight: 700, fontSize: 11, marginTop: 4 }}>{(p.submitLabel || 'CONFIRM BOOKING').toUpperCase()}</div>
       </div>
     </div>
   );
@@ -738,7 +739,7 @@ function SplitPanelFlyerPreview({ p }: { p: any }) {
 function BlockPreview({ block }: { block: Block }) {
   switch (block.type) {
     case 'hero': return <HeroPreview p={block.props} />;
-    case 'form': return <FormPreview />;
+    case 'form': return <FormPreview p={block.props} />;
     case 'text': return <TextPreview p={block.props} />;
     case 'image': return <ImagePreview p={block.props} />;
     case 'stats': return <StatsPreview p={block.props} />;
@@ -934,24 +935,21 @@ function VideoEmbedEditor({ p, set }: { p: any; set: (k: string, v: any) => void
     <FColor label="Background" value={p.bgColor} onChange={v => set('bgColor', v)} />
   </>;
 }
-function FormFixedEditor() {
-  return (
-    <div style={{ textAlign: 'center', padding: '24px 12px' }}>
-      <div style={{ fontSize: 36, marginBottom: 10 }}>🔒</div>
-      <p style={{ fontWeight: 700, color: C.text, fontSize: 13, margin: '0 0 6px' }}>Fixed Block</p>
-      <p style={{ color: C.textMuted, fontSize: 12, margin: 0, lineHeight: 1.7 }}>
-        The <strong>Book a Viewing</strong> form is fixed. It always renders the same 8-field enquiry form on the live page.
-      </p>
-      <div style={{ marginTop: 16, background: C.bg, borderRadius: 8, padding: 12, textAlign: 'left', border: `1px solid ${C.border}` }}>
-        <p style={{ ...sectionTitle, margin: '0 0 8px' }}>Fields included</p>
-        {['First Name', 'Last Name', 'Email', 'Phone', 'Preferred Date', 'Preferred Time', 'Budget (QAR)', 'Message'].map(f => (
-          <div key={f} style={{ fontSize: 12, color: C.textMuted, padding: '4px 0', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ color: C.success }}>✓</span> {f}
-          </div>
-        ))}
-      </div>
+function FormFixedEditor({ p, set }: { p: any; set: (k: string, v: any) => void }) {
+  return <>
+    <p style={sectionTitle}>Form Header</p>
+    <FInput label="Heading" value={p.heading} onChange={v => set('heading', v)} placeholder="Book a Viewing" />
+    <FInput label="Subtext" value={p.subtext} onChange={v => set('subtext', v)} placeholder="Fill in your details..." />
+    <FInput label="Submit Button Text" value={p.submitLabel} onChange={v => set('submitLabel', v)} placeholder="Confirm Booking" />
+    <div style={{ marginTop: 16, background: C.bg, borderRadius: 8, padding: 12, border: `1px solid ${C.border}` }}>
+      <p style={{ ...sectionTitle, margin: '0 0 8px' }}>Fixed fields (always included)</p>
+      {['First Name', 'Last Name', 'Email', 'Phone', 'Preferred Date', 'Preferred Time', 'Budget (QAR)', 'Message'].map(f => (
+        <div key={f} style={{ fontSize: 12, color: C.textMuted, padding: '4px 0', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ color: C.success }}>✓</span> {f}
+        </div>
+      ))}
     </div>
-  );
+  </>;
 }
 
 // ─── New Block Settings Editors ───────────────────────────────────────────────
@@ -1141,7 +1139,7 @@ function BlockSettingsEditor({ block, onChange }: { block: Block; onChange: (b: 
   const set = (k: string, v: any) => onChange({ ...block, props: { ...block.props, [k]: v } });
   switch (block.type) {
     case 'hero': return <HeroEditor p={block.props} set={set} />;
-    case 'form': return <FormFixedEditor />;
+    case 'form': return <FormFixedEditor p={block.props} set={set} />;
     case 'text': return <TextEditor p={block.props} set={set} />;
     case 'image': return <ImageEditor p={block.props} set={set} />;
     case 'stats': return <StatsEditor p={block.props} set={set} onChange={np => onChange({ ...block, props: np })} />;
@@ -1346,7 +1344,7 @@ export default function PageBuilderApp() {
     if (!currentPage) return;
     const block: Block = { id: uid(), type, props: clone(DEFAULTS[type]) };
     setCurrentPage({ ...currentPage, blocks: [...currentPage.blocks, block] });
-    if (type !== 'form') setSelectedId(block.id);
+    setSelectedId(block.id);
   };
   const updateBlock = (updated: Block) => {
     if (!currentPage) return;
@@ -1365,7 +1363,7 @@ export default function PageBuilderApp() {
     const blocks = [...currentPage.blocks];
     blocks.splice(idx + 1, 0, copy);
     setCurrentPage({ ...currentPage, blocks });
-    if (copy.type !== 'form') setSelectedId(copy.id);
+    setSelectedId(copy.id);
   };
   const moveBlock = (from: number, to: number) => {
     if (!currentPage || from === to) return;
@@ -1585,7 +1583,6 @@ export default function PageBuilderApp() {
           {/* Blocks */}
           {currentPage?.blocks.map((block, idx) => {
             const isSelected = selectedId === block.id;
-            const isForm = block.type === 'form';
             const isDraggingThis = draggingIdx === idx;
             const isDropTarget = dragOverIdx === idx && draggingIdx !== idx;
             return (
@@ -1595,14 +1592,14 @@ export default function PageBuilderApp() {
                 onDragOver={e => { e.preventDefault(); setDragOverIdx(idx); }}
                 onDrop={e => { e.preventDefault(); if (dragItem.current !== null) moveBlock(dragItem.current, idx); dragItem.current = null; setDraggingIdx(null); setDragOverIdx(null); }}
                 onDragEnd={() => { dragItem.current = null; setDraggingIdx(null); setDragOverIdx(null); }}
-                onClick={() => !isForm && setSelectedId(isSelected ? null : block.id)}
+                onClick={() => setSelectedId(isSelected ? null : block.id)}
                 style={{
                   marginBottom: 12, borderRadius: 8, overflow: 'hidden',
                   border: `2px solid ${isSelected ? C.accent : isDropTarget ? C.accent + '88' : C.border}`,
                   background: '#fff', boxShadow: isSelected ? `0 0 0 3px ${C.accent}22` : C.shadow,
                   opacity: isDraggingThis ? 0.45 : 1,
                   transition: 'border-color 0.15s, box-shadow 0.15s, opacity 0.15s',
-                  cursor: isForm ? 'default' : 'pointer',
+                  cursor: 'pointer',
                   position: 'relative',
                 }}
               >
@@ -1612,8 +1609,6 @@ export default function PageBuilderApp() {
                   <span style={{ fontSize: 11, fontWeight: 600, color: isSelected ? C.accent : C.textMuted, textTransform: 'uppercase', letterSpacing: '0.5px', flex: 1 }}>
                     {BLOCK_LIBRARY.find(b => b.type === block.type)?.label || block.type}
                   </span>
-                  {isForm && <span style={{ fontSize: 10, color: '#999', background: '#eee', borderRadius: 3, padding: '1px 6px' }}>🔒 Fixed</span>}
-
                   {/* Controls */}
                   <div style={{ display: 'flex', gap: 4 }} onClick={e => e.stopPropagation()}>
                     <button title="Move up" onClick={() => moveBlock(idx, Math.max(0, idx - 1))}
