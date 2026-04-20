@@ -170,5 +170,32 @@ export default {
     } catch {
       // Non-fatal on first boot.
     }
+
+    // ── Grant public read access to landing-pages API ────────────────────────
+    // Without this the Angular frontend gets 403 on every /api/landing-pages
+    // request, page stays null, and only the fallback Contact Form renders.
+    try {
+      const publicRole = await s.db.query('plugin::users-permissions.role').findOne({
+        where: { type: 'public' },
+      });
+      if (publicRole) {
+        const actions = [
+          'api::landing-page.landing-page.find',
+          'api::landing-page.landing-page.findOne',
+        ];
+        for (const action of actions) {
+          const exists = await s.db.query('plugin::users-permissions.permission').findOne({
+            where: { action, role: publicRole.id },
+          });
+          if (!exists) {
+            await s.db.query('plugin::users-permissions.permission').create({
+              data: { action, role: publicRole.id },
+            });
+          }
+        }
+      }
+    } catch {
+      // Non-fatal — permissions may already exist or plugin not ready yet.
+    }
   },
 };
